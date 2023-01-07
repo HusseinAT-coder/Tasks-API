@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//models
+model Status {
+
+  Id Int @default(autoincrement()) @id
+  
+  Name  String
+
+  Tasks Task[]
+}
+
+model User {
+
+  Id Int @default(autoincrement()) @id
+
+  Email String  @unique
+
+  Password String
+  
+  Name  String?
+
+  // //for auditing purposes
+  // IsDeleted Boolean @default(false)
+
+  // DeletionTime DateTime?
+
+  // DeleterId Int?
+
+  // LastModificationTime DateTime?
+
+  // LastModifierId String?
+
+  // CreationTime DateTime
+
+  Tasks Task[]
+
+  // CreatedTasks Task[]
+}
+
+model Task {
+
+  Id        Int      @default(autoincrement()) @id
+
+  Title     String
+  Description   String?
+  
+  Status    Status    @relation(fields: [StatusId], references: [Id])
+  StatusId  Int
+
+  Assignee    User?    @relation(fields: [AssigneeId], references: [Id])
+  AssigneeId  Int?
+
+//for auditing purposes
+  // IsDeleted Boolean @default(false) //used for soft delete
+
+  // DeletionTime DateTime?
+
+  // DeleterId Int?
+
+  // LastModificationTime DateTime?
+
+  // LastModifierId String?
+
+  // CreationTime DateTime
+
+  // Creator    User?    @relation(fields: [CreatorId], references: [Id])
+  // CreatorId  Int?
+}
