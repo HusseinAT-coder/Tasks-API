@@ -2,6 +2,11 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class TaskInputDto {
 
+    @ApiProperty({
+        required: false
+    })
+    Id: number
+
     @ApiProperty()
     Title: string;
 

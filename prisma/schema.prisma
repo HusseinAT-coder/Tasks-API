@@ -35,7 +35,7 @@ model User {
 
   // DeletionTime DateTime?
 
-  // DeleterId Int?
+  DeleterId Int?
 
   // LastModificationTime DateTime?
 
