@@ -43,6 +43,9 @@ model User {
 
   // CreationTime DateTime
 
+  Permission    Permission?    @relation(fields: [PermissionId], references: [Id])
+  PermissionId  Int?
+
   Tasks Task[]
 
   // CreatedTasks Task[]
@@ -76,4 +79,13 @@ model Task {
 
   // Creator    User?    @relation(fields: [CreatorId], references: [Id])
   // CreatorId  Int?
+}
+
+model Permission{
+
+  Id Int @default(autoincrement()) @id
+
+  Name String
+
+  Users User[]
 }

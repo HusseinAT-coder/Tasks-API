@@ -11,6 +11,10 @@ export class UsersService {
         private readonly _prismaService: PrismaService
     ) { }
 
+    async Get() {
+
+    }
+
     async Register(input: UserRegisterInputDto) {
 
         const email = input.Email.toLowerCase();
