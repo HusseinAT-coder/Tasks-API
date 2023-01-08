@@ -31,11 +31,11 @@ model User {
   Name  String?
 
   // //for auditing purposes
-  // IsDeleted Boolean @default(false)
+  IsDeleted Boolean @default(false)
 
   // DeletionTime DateTime?
 
-  DeleterId Int?
+  // DeleterId Int?
 
   // LastModificationTime DateTime?
 
@@ -44,7 +44,7 @@ model User {
   // CreationTime DateTime
 
   Permission    Permission?    @relation(fields: [PermissionId], references: [Id])
-  PermissionId  Int?
+  PermissionId  Int? @default(3)
 
   Tasks Task[]
 

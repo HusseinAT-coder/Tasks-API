@@ -1,4 +1,4 @@
-import { PrismaClient, Status } from '@prisma/client'
+import { Permission, PrismaClient, Status } from '@prisma/client'
 import { PrismaConsts } from './prisma.consts'
 
 const prisma = new PrismaClient()
@@ -7,9 +7,11 @@ async function main() {
 
     const pending = await prisma.status.upsert({
         where: <Status>{ Id: PrismaConsts.STATUS_PENDING_ID },
-        update: {},
+        update: {
+            Name: 'Pending'
+        },
         create: {
-            Id:  PrismaConsts.STATUS_PENDING_ID,
+            Id: PrismaConsts.STATUS_PENDING_ID,
             Name: 'Pending'
         },
     })
@@ -18,7 +20,7 @@ async function main() {
         where: <Status>{ Id: PrismaConsts.STATUS_INPROGRESS_ID },
         update: {},
         create: {
-            Id:  PrismaConsts.STATUS_INPROGRESS_ID,
+            Id: PrismaConsts.STATUS_INPROGRESS_ID,
             Name: 'In Progress'
         },
     })
@@ -27,12 +29,42 @@ async function main() {
         where: <Status>{ Id: PrismaConsts.STATUS_COMPLETED_ID },
         update: {},
         create: {
-            Id:  PrismaConsts.STATUS_COMPLETED_ID,
+            Id: PrismaConsts.STATUS_COMPLETED_ID,
             Name: 'Completed'
         },
     })
 
-    console.log({ pending, inProgress, completed })
+    //permissions
+    const superAdmin = await prisma.permission.upsert({
+        where: <Permission>{ Id: PrismaConsts.PERMISSION_SUPER_ADMIN_ID },
+        update: {
+            Name: 'Super Admin'
+        },
+        create: {
+            Id: PrismaConsts.PERMISSION_SUPER_ADMIN_ID,
+            Name: 'Super Admin'
+        },
+    })
+
+    const admin = await prisma.permission.upsert({
+        where: <Permission>{ Id: PrismaConsts.PERMISSION_ADMIN_ID },
+        update: {},
+        create: {
+            Id: PrismaConsts.PERMISSION_ADMIN_ID,
+            Name: 'Admin'
+        },
+    })
+
+    const normal = await prisma.permission.upsert({
+        where: <Permission>{ Id: PrismaConsts.PERMISSION_NORMAL_ID },
+        update: {},
+        create: {
+            Id: PrismaConsts.PERMISSION_NORMAL_ID,
+            Name: 'Normal'
+        },
+    })
+
+    console.log({ superAdmin, admin, normal })
 }
 main()
     .then(async () => {
